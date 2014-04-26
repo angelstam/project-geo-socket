@@ -1,0 +1,44 @@
+<script src="/socket.io/socket.io.js"></script>
+<script>
+
+	  var name=prompt("Please enter your name","");	
+	  var thePositions = [];
+
+	  if (name!=null && name!="")
+	    {
+			var socket = io.connect('http://192.168.1.101');
+
+			socket.emit('set nickname', name);
+			var locdata = {};
+			
+			socket.on('ready', function () {
+				console.log('server ready');
+				navigator.geolocation.getCurrentPosition(GetLocation);
+
+				console.log(locdata);
+
+
+			});
+	    }
+
+		socket.on('position', function (data) {
+			thePositions[data.name] = data;
+			console.log(data);
+		});
+
+		socket.on('positions', function (data) {
+			thePositions = data;
+			console.log(data);
+		});
+
+function GetLocation(location) {
+    locdata.latitude = location.coords.latitude;
+    locdata.longitude = location.coords.longitude;
+    locdata.accuracy = location.coords.accuracy;
+
+    socket.emit('position', locdata);
+}
+
+
+
+</script>
