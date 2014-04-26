@@ -1,8 +1,9 @@
 var app = require('http').createServer(handler)
   , io = require('socket.io').listen(app)
   , fs = require('fs')
+  , config = require('./appConfig.js')
 
-app.listen(8000);
+app.listen(config.listen);
 
 var locations = [];
 
