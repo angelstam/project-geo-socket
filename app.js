@@ -47,4 +47,9 @@ io.sockets.on('connection', function (socket) {
       console.log(name + " disconnected.");
     });
   });
+
+  setTimeout(function() {
+    console.log('Timeout Called');
+    socket.emit('positions', locations);
+  }, 5000);
 });
