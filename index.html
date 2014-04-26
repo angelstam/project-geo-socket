@@ -14,7 +14,7 @@
 
 	if (name!=null && name!="")
 	{
-		var socket = io.connect('http://192.168.1.101');
+		var socket = io.connect(location.href);
 
 		socket.emit('set nickname', name);
 		var locdata = {};
@@ -33,6 +33,8 @@
 
 	socket.on('positions', function (data) {
 		thePositions = data;
+		console.log("Postitions recieved:");
+		console.log(thePositions);
 		console.log(data);
 		printGeoData();
 	});

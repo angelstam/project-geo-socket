@@ -26,23 +26,27 @@ io.sockets.on('connection', function (socket) {
     socket.set('nickname', name, function () {
       console.log("User connected with nickname: "+name);
       socket.emit('ready');
+      console.log("Sending positions with the following values:")
+      console.log(locations);
+      socket.emit('positions', locations);
     });
   });
   //broadcast 
-  socket.emit('positions', locations);
+  
   
   socket.on('position', function (data) {
     socket.get('nickname', function (err, name) {
       console.log('Updated postion by: ', name);
+      console.log(locations);
 
       var udata = {'username': name, 'position': data};
       locations[name] = data;
-      console.log(locations);
+      
       socket.broadcast.emit('position', udata);
     });
   });
 
-
+/*
   io.sockets.on('disconnect', function () {
     socket.get('nickname', function(name) {
       console.log(name + " disconnected.");
@@ -53,4 +57,5 @@ io.sockets.on('connection', function (socket) {
     console.log('Timeout Called');
     socket.emit('positions', locations);
   }, 5000);
+*/
 });
